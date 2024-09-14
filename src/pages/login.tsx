@@ -1,0 +1,131 @@
+import { useDispatch } from "react-redux";
+import { setTokens } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+//Change the name after vanta. based on the vanta.d.ts
+import VANTA from "vanta/dist/vanta.net.min";
+import * as THREE from "three";
+import { Fade } from "@mui/material";
+import { VANTA_BACKGROUND, VANTA_PRIMARY } from "../constants/colors";
+import { Button, Input } from "@material-tailwind/react";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import firebase from "../services/firebase/firebase";
+import { checkAccessToken, SetAccessToken } from "../helper/localStorage";
+import { LoginUser } from "../services/firebase/auth";
+import { vertexColor } from "three/examples/jsm/nodes/Nodes.js";
+
+const Login: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const vantaRef = useRef<HTMLDivElement>(null);
+  const [vantaEffect, setVantaEffect] = useState<any>(null);
+  const [wrongInfo, setWrongInfo] = useState<boolean>(false);
+  const [loginInfo, setLoginInfo] = useState<LoginInfo>({
+    email: "",
+    password: "",
+  });
+
+  let handleInput = (e: any) => {
+    setLoginInfo({
+      ...loginInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  useEffect(() => {
+    if (!vantaEffect) {
+      setVantaEffect(
+        VANTA({
+          el: vantaRef.current,
+          THREE: THREE,
+          color: VANTA_PRIMARY,
+          backgroundColor: VANTA_BACKGROUND,
+          vertexColor: VANTA_PRIMARY,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.0,
+          minWidth: 200.0,
+          scale: 1.0,
+          scaleMobile: 1.0,
+        })
+      );
+    }
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, [vantaEffect]);
+
+  useEffect(() => {
+    checkAccessToken() && navigate("/");
+  }, []);
+
+  const handleLogin = async () => {
+    // check for login information
+    try {
+      let response = await LoginUser(loginInfo);
+      let responseData: any = {
+        uid: response.data.uid,
+        email: response.data.email,
+        accesstoken: response.data.stsTokenManager.accessToken,
+      };
+      SetAccessToken(responseData);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <div className="bg-custom-black">
+      <Fade in={true} timeout={1000}>
+        <div
+          className="pl-24 pr-24 pt-12 h-screen text-custom-white  flex flex-col justify-center items-center"
+          ref={vantaRef}
+        >
+          <div className="bg-white p-6 rounded-md text-black h-98 w-1/3 flex flex-col items-center gap-4 pt-12 pb-12">
+            <div className="text-center">
+              <h1 className="">SkillAgent</h1>
+              <p className="text-xs text-gray-600">
+                Continue the journey to learning new skills
+              </p>
+            </div>
+
+            <div className="w-72  flex flex-col gap-4 ">
+              <Input
+                label="Email"
+                name="email"
+                crossOrigin={undefined}
+                onChange={handleInput}
+              />
+              <Input
+                label="Password"
+                name="password"
+                type="password"
+                crossOrigin={undefined}
+                error={wrongInfo}
+                onChange={handleInput}
+              />
+              <Button onClick={handleLogin} className="mt-4">
+                Start Learning
+              </Button>
+              <hr></hr>
+              <p className="text-center">
+                New here?{" "}
+                <span
+                  className="underline text-blue-300 cursor-pointer"
+                  onClick={() => navigate("/register")}
+                >
+                  Register Now
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </Fade>
+    </div>
+  );
+};
+
+export default Login;
