@@ -2,7 +2,7 @@ interface ISkillInfo {
     title: string;
     description: string;
     email: string;
-    duration: string;
+    duration: number;
     what: string;
     level: string;
 }

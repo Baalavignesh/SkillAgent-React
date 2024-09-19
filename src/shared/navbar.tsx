@@ -18,7 +18,7 @@ const MyNavbar: React.FC = () => {
   };
 
   return (
-    <div className="p-4 pl-24 pr-24 flex justify-between items-center bg-custom-black text-white z-50">
+    <div className="p-4 pl-24 pr-24 flex justify-between sticky top-0 items-center bg-custom-black text-white z-50">
       <h2 onClick={() => navigate("/")} className="cursor-pointer">
         SkillAgent
       </h2>

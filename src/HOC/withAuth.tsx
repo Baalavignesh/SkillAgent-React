@@ -10,23 +10,22 @@ import { setUserInfo } from "../features/auth/authSlice";
 const withAuth = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => {
     // const { accessToken } = useSelector((state: RootState) => state.authStore);
-    const { uid, email, accesstoken } = fetchLocalData();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     let dispatch = useDispatch();
 
     const data = fetchLocalData();
     const checkAuth = async () => {
-      if (!data.accesstoken) {
+      if (!data) {
         localStorage.clear();
         navigate("/login");
         return;
       } else {
         dispatch(
           setUserInfo({
-            email: email,
-            uid: uid,
-            accesstoken: accesstoken,
+            email: data.email,
+            uid: data.uid,
+            accesstoken: data.accesstoken,
           })
         );
       }
@@ -35,7 +34,7 @@ const withAuth = (WrappedComponent: React.ComponentType<any>) => {
 
     useEffect(() => {
       checkAuth();
-    }, [accesstoken]);
+    }, []);
 
     if (loading) {
       return (

@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import MyNavbar from "../shared/navbar";
-import { background } from "../assets";
 import { fetchUserSkills } from "../services/firebase/userskills";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
@@ -21,19 +20,19 @@ const Dashboard: React.FC = () => {
 
   return (
     <div
-      className="h-screen overflow-hidden w-full"
+      className="h-screen overflow-y w-full"
       style={{
-        backgroundImage: `url(${background})`,
+        // backgroundImage: `url(${background})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
     >
-      <MyNavbar />
+      <MyNavbar  />
       <Fade in={true} timeout={1500}>
         <Container maxWidth="xl">
           <h1 className="mt-12 mb-12 text-center">My Skills</h1>
-          <div className="grid grid-cols-3 gap-4 place-items-center select-none">
+          <div className="grid grid-cols-3 gap-6 place-items-center select-none">
             <MySkill name="New Skill" id={0} />
 
             {mySkills.map((skill: any, index: number) => {
@@ -58,7 +57,7 @@ const MySkill: React.FC<MySkills> = ({ name, id }) => {
 
   return (
     <div
-      className="flex flex-col gap-4 bg-white justify-center w-fit shadow-md p-24 rounded-lg border-[1px] cursor-pointer hover:scale-105 transition-all duration-300"
+      className="flex flex-col gap-4 bg-white justify-center w-9/12 text-center shadow-md p-24 rounded-lg border-[1px] cursor-pointer hover:scale-105 transition-all duration-300"
       onClick={() => {
         id === 0 ? navigate("/newskill") : navigate(`/myskill/${name}`);
       }}

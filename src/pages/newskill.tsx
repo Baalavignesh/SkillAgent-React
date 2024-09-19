@@ -27,7 +27,7 @@ const NewSkill: React.FC = () => {
   let handleDropdown = (id: string, value: string) => {
     setNewSkillData({
       ...newSkillData,
-      [id]: value,
+      [id]: id === "duration" ? parseInt(value) : value,
     });
   };
 
@@ -35,7 +35,7 @@ const NewSkill: React.FC = () => {
     title: "",
     what: "",
     level: "",
-    duration: "",
+    duration: 0,
     description: "",
     email: email,
   });
@@ -60,10 +60,7 @@ const NewSkill: React.FC = () => {
             <h1 className="mt-12 mb-12 text-center text-u">New Skills</h1>
             <div className="flex justify-center ">
               <div className="w-2/5  bg-brown-100 p-4 rounded-md rounded-r-none flex items-center pl-20">
-                <p
-                  className="w-11/12 leading-normal
-           text-4xl"
-                >
+                <p className="w-11/12 leading-normal text-4xl">
                   Start your journey on learning a new skill now
                 </p>
               </div>
@@ -111,12 +108,12 @@ const NewSkill: React.FC = () => {
                   <Select
                     label="Duration"
                     name="duration"
-                    value={newSkillData.duration}
+                    value={newSkillData.duration.toString()}
                     onChange={(e: any) => handleDropdown("duration", e)}
                   >
-                    <Option value="1 week">1 week</Option>
-                    <Option value="1 month">1 month</Option>
-                    <Option value="no limit">No limit</Option>
+                    <Option value="7">1 Week</Option>
+                    <Option value="30">1 Month</Option>
+                    <Option value="100">100 Days</Option>
                   </Select>
                 </div>
                 <div className="flex w-full gap-4 justify-center items-center p-4">

@@ -2,7 +2,7 @@ import { Container } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import MyNavbar from "../shared/navbar";
 import { Input } from "@material-tailwind/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { background } from "../assets";
 import { CreateAssistant } from "../services/openai/assistant";
 import CreateInstruction from "../helper/instruction";
@@ -22,6 +22,7 @@ import Loading from "../shared/loading";
 const MySkill: React.FC = () => {
   let { skill } = useParams();
   const { email } = useSelector((state: RootState) => state.authStore);
+  let navigate = useNavigate();
 
   const messagesEndRef = useRef<any>(null);
 
@@ -63,14 +64,20 @@ const MySkill: React.FC = () => {
     assistantId: string,
     message: string
   ) => {
-    await AddMessageToThread(threadId, message).then(() => {
-      RunThread(threadId, assistantId).then(async (runThreadResponse) => {
+    await AddMessageToThread(threadId, message).then(async () => {
+      await RunThread(threadId, assistantId).then(async (runThreadResponse) => {
         if (runThreadResponse.data.status === "completed") {
-          FetchThreadMessages(runThreadResponse.data.thread_id).then((res) => {
-            console.log(res.data);
-            setSkillMessages(res.data.data.reverse());
-            setLoading(false);
-          });
+          await FetchThreadMessages(runThreadResponse.data.thread_id).then(
+            (res) => {
+              console.log(res.data);
+              let finalMessages: any[] = res.data.data.reverse();
+              console.log(finalMessages[1]);
+              finalMessages = finalMessages.slice(4);
+              setSkillMessages(finalMessages);
+              setLoading(false);
+              return finalMessages[0];
+            }
+          );
         } else {
           console.log(runThreadResponse.data.status);
         }
@@ -81,31 +88,54 @@ const MySkill: React.FC = () => {
   let initialSetup = async () => {
     await fetchSkillInfo(email, skill).then(async (skillInfoResponse) => {
       let instruction = CreateInstruction(skillInfoResponse.data);
-      await CreateAssistant(skillInfoResponse.data.title, instruction).then(
-        async (assistantResponse) => {
-          console.log("assistant information", assistantResponse.data);
-          await CreateThread().then((threadResponse) => {
-            console.log("thread information", threadResponse.data);
-            setMyThreadInfo({
-              ...myThreadInfo,
-              threadId: threadResponse.data.id,
-              assistantId: assistantResponse.data.id,
-            });
-            AddThreadToDb(
-              email,
-              threadResponse.data.id,
-              skill!,
-              assistantResponse.data.id
-            );
+      if (skillInfoResponse.data.title) {
+        await CreateAssistant(skillInfoResponse.data.title, instruction).then(
+          async (assistantResponse) => {
+            console.log("assistant information", assistantResponse.data);
+            await CreateThread().then(async (threadResponse) => {
+              console.log("thread information", threadResponse.data);
+              setMyThreadInfo({
+                ...myThreadInfo,
+                threadId: threadResponse.data.id,
+                assistantId: assistantResponse.data.id,
+              });
+              AddThreadToDb(
+                email,
+                threadResponse.data.id,
+                skill!,
+                assistantResponse.data.id
+              );
 
-            addAndRunMessage(
-              threadResponse.data.id,
-              assistantResponse.data.id,
-              "Introduce yourself to me with your purpose, give me a task for the day"
-            );
-          });
-        }
-      );
+              console.log(skillInfoResponse.data.duration);
+              addAndRunMessage(
+                threadResponse.data.id,
+                assistantResponse.data.id,
+                `With the given information, Provide me a json with a study plan for ${skillInfoResponse.data.duration} days. The json format should be {
+      "day": "Day 1",
+      "topic": "topic name",
+      "objectives": [
+        "objective1",
+        "objective2"
+      ],
+      "tasks": [
+        "task1",
+        "task2",
+        "task3"
+      ]
+    }. Make sure there is no more than 3 objective and no more than 4 task for each day. `
+              ).then(async () => {
+                await addAndRunMessage(
+                  threadResponse.data.id,
+                  assistantResponse.data.id,
+                  "Introduce yourself to me"
+                );
+              });
+            });
+          }
+        );
+      } else {
+        navigate("/");
+      }
     });
   };
 
@@ -115,7 +145,15 @@ const MySkill: React.FC = () => {
       if (res.data.message != "no document") {
         setMyThreadInfo(res.data);
         FetchThreadMessages(res.data.threadId).then((res) => {
-          setSkillMessages(res.data.data.reverse());
+          let finalMessages: any[] = res.data.data.reverse();
+
+          let jsonMessage = finalMessages[1].content[0].text.value;
+          let jsonData = jsonMessage.match(/```json([\s\S]*?)```/);
+          console.log(jsonData);
+          let extractedJson = jsonData ? jsonData[1] : null;
+          console.log(JSON.parse(extractedJson));
+          // finalMessages = finalMessages.slice(4);
+          setSkillMessages(finalMessages);
           setLoading(false);
         });
       } else {
@@ -160,16 +198,15 @@ const MySkill: React.FC = () => {
                   <div key={message.id}>
                     {message.role === "user" ? (
                       <>
-                      <hr></hr>
-                       <div className="w-full flex flex-row items-end justify-end">
-                        <div className="w-10/12 flex flex-end justify-end">
-                          <span className="whitespace-pre-wrap w-fit px-4 py-2 m-4 mr-2 rounded-br-none rounded-lg bg-custom-black text-white">
-                            {message.content[0].text.value}
-                          </span>
+                        <hr></hr>
+                        <div className="w-full flex flex-row items-end justify-end">
+                          <div className="w-10/12 flex flex-end justify-end">
+                            <span className="whitespace-pre-wrap w-fit px-4 py-2 m-4 mr-2 rounded-br-none rounded-lg bg-custom-black text-white">
+                              {message.content[0].text.value}
+                            </span>
+                          </div>
                         </div>
-                      </div>
                       </>
-                     
                     ) : (
                       <div
                         className="w-10/12 flex flex-row items-end"

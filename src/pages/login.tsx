@@ -1,21 +1,15 @@
-import { useDispatch } from "react-redux";
-import { setTokens } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 //Change the name after vanta. based on the vanta.d.ts
-import VANTA from "vanta/dist/vanta.net.min";
+import VANTA from "vanta/dist/vanta.globe.min";
 import * as THREE from "three";
 import { Fade } from "@mui/material";
 import { VANTA_BACKGROUND, VANTA_PRIMARY } from "../constants/colors";
 import { Button, Input } from "@material-tailwind/react";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import firebase from "../services/firebase/firebase";
 import { checkAccessToken, SetAccessToken } from "../helper/localStorage";
 import { LoginUser } from "../services/firebase/auth";
-import { vertexColor } from "three/examples/jsm/nodes/Nodes.js";
 
 const Login: React.FC = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const vantaRef = useRef<HTMLDivElement>(null);
@@ -49,6 +43,7 @@ const Login: React.FC = () => {
           minWidth: 200.0,
           scale: 1.0,
           scaleMobile: 1.0,
+          size: 0.50
         })
       );
     }
@@ -111,7 +106,7 @@ const Login: React.FC = () => {
                 Start Learning
               </Button>
               <hr></hr>
-              <p className="text-center">
+              <p className="text-center text-sm">
                 New here?{" "}
                 <span
                   className="underline text-blue-300 cursor-pointer"

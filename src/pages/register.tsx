@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 //Change the name after vanta. based on the vanta.d.ts
-import VANTA from "vanta/dist/vanta.net.min";
+import VANTA from "vanta/dist/vanta.globe.min";
 import * as THREE from "three";
 import { Fade } from "@mui/material";
 import { VANTA_BACKGROUND, VANTA_PRIMARY } from "../constants/colors";
@@ -35,6 +35,7 @@ const Register: React.FC = () => {
           THREE: THREE,
           color: VANTA_PRIMARY,
           backgroundColor: VANTA_BACKGROUND,
+          vertexColor: VANTA_PRIMARY,
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
@@ -42,6 +43,7 @@ const Register: React.FC = () => {
           minWidth: 200.0,
           scale: 1.0,
           scaleMobile: 1.0,
+          size: 0.50
         })
       );
     }

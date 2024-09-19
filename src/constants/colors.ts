@@ -5,5 +5,5 @@ export const SUCCESS = "#047A55";
 export const CUSTOM_WHITE = "#EEEEEE";
 export const CUSTOM_BLACK = "#222831";
 
-export const VANTA_BACKGROUND = 0x222831;
+export const VANTA_BACKGROUND = 0x23153c;
 export const VANTA_PRIMARY = 0xff3f81;
