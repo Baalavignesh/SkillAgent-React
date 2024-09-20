@@ -43,12 +43,6 @@ const NewSkill: React.FC = () => {
   return (
     <div
       className="h-screen overflow-hidden w-full"
-      style={{
-        backgroundImage: `url(${background})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
     >
       <MyNavbar />
       <Fade in={true} timeout={1500}>
@@ -59,8 +53,8 @@ const NewSkill: React.FC = () => {
           <form>
             <h1 className="mt-12 mb-12 text-center text-u">New Skills</h1>
             <div className="flex justify-center ">
-              <div className="w-2/5  bg-brown-100 p-4 rounded-md rounded-r-none flex items-center pl-20">
-                <p className="w-11/12 leading-normal text-4xl">
+              <div className="w-2/5 bg-gray-50  border-r-2 p-4 pl-8 rounded-md rounded-r-none flex items-center">
+                <p className="w-full  leading-normal text-2xl">
                   Start your journey on learning a new skill now
                 </p>
               </div>
@@ -129,7 +123,6 @@ const NewSkill: React.FC = () => {
                 <div className="flex w-full gap-4 justify-center items-center p-4">
                   <p className="w-1/2">Provide further information(optional)</p>
                   <Input
-                    required
                     label="Extra"
                     crossOrigin={undefined}
                     name="description"
@@ -143,7 +136,7 @@ const NewSkill: React.FC = () => {
             </div>
             <div className="flex w-full justify-center mt-4">
               <Button
-                className="mt-4 text-lg font-light"
+                className="mt-4 text-md font-normal"
                 onClick={handleNewSkill}
                 placeholder={undefined}
                 onPointerEnterCapture={undefined}
