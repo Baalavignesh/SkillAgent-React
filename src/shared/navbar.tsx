@@ -23,12 +23,15 @@ const MyNavbar: React.FC = () => {
         SkillAgent
       </h2>
       <div className="flex gap-12 items-center justify-center">
-        <h4 onClick={() => navigate("/about")} className="cursor-pointer">
-          How it works?
+      <h4 onClick={() => navigate("/")} className="mt-1 cursor-pointer border-b-2 border-b-transparent hover:border-b-deep-purple-300  transition duration-300 ease-in-out">
+          My Skills
+        </h4>
+        <h4 onClick={() => navigate("/about")} className="mt-1 cursor-pointer border-b-2 border-b-transparent hover:border-b-deep-purple-300  transition duration-300 ease-in-out">
+          About
         </h4>
         <h4
           onClick={handleLogout}
-          className="cursor-pointer bg-red-400 p-2 rounded-sm"
+          className="mt-1 cursor-pointer border-b-2 border-b-transparent hover:border-b-deep-purple-300  transition duration-300 ease-in-out"
         >
           Logout
         </h4>

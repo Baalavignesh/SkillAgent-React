@@ -59,12 +59,12 @@ const MySkill: React.FC<MySkills> = ({ name, id }) => {
     <div
       className="flex flex-col gap-4 bg-white justify-center w-9/12 text-center shadow-md p-24 rounded-lg border-[1px] cursor-pointer hover:scale-105 transition-all duration-300"
       onClick={() => {
-        id === 0 ? navigate("/newskill") : navigate(`/myskill/${name}`);
+        id === 0 ? navigate("/newskill") : navigate(`/skillrouter/${name}`);
       }}
     >
       <p className="text-2xl">{id === 0 ? "Learn Skill" : name}</p>
       <i className="fa-solid fa-house mt-4"></i>
-      <p className="text-center">
+      <div className="text-center">
         {id === 0 ? (
           <FontAwesomeIcon icon={faPlus} size="2xl" />
         ) : (
@@ -73,7 +73,7 @@ const MySkill: React.FC<MySkills> = ({ name, id }) => {
             <FontAwesomeIcon icon={faArrowRight} size="1x" />
           </div>
         )}
-      </p>
+      </div>
     </div>
   );
 };

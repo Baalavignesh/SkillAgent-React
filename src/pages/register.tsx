@@ -43,7 +43,7 @@ const Register: React.FC = () => {
           minWidth: 200.0,
           scale: 1.0,
           scaleMobile: 1.0,
-          size: 0.50
+          size: 0.5,
         })
       );
     }
@@ -94,6 +94,8 @@ const Register: React.FC = () => {
                 name="email"
                 crossOrigin={undefined}
                 onChange={handleInput}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
               />
               <Input
                 label="New Password"
@@ -101,8 +103,16 @@ const Register: React.FC = () => {
                 type="password"
                 crossOrigin={undefined}
                 onChange={handleInput}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
               />
-              <Button onClick={handleRegister} className="">
+              <Button
+                onClick={handleRegister}
+                className=""
+                placeholder={undefined}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              >
                 Create Account
               </Button>
               <hr></hr>

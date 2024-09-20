@@ -21,7 +21,7 @@ const NewSkill: React.FC = () => {
 
   let handleNewSkill = () => {
     addNewSkill(newSkillData).then(() => {
-      navigate(`/myskill/${newSkillData.title}`);
+      navigate(`/skillrouter/${newSkillData.title}`);
     });
   };
   let handleDropdown = (id: string, value: string) => {
@@ -74,6 +74,8 @@ const NewSkill: React.FC = () => {
                     name="title"
                     value={newSkillData.title}
                     onChange={handleInput}
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
                   />
                 </div>
 
@@ -86,6 +88,8 @@ const NewSkill: React.FC = () => {
                     name="what"
                     value={newSkillData.what}
                     onChange={handleInput}
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
                   />
                 </div>
                 <div className="flex w-full gap-4 justify-center items-center p-4">
@@ -95,6 +99,9 @@ const NewSkill: React.FC = () => {
                     name="level"
                     value={newSkillData.level}
                     onChange={(e: any) => handleDropdown("level", e)}
+                    placeholder={undefined}
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
                   >
                     <Option value="beginner">Beginner</Option>
                     <Option value="intermediate">Intermediate</Option>
@@ -110,6 +117,9 @@ const NewSkill: React.FC = () => {
                     name="duration"
                     value={newSkillData.duration.toString()}
                     onChange={(e: any) => handleDropdown("duration", e)}
+                    placeholder={undefined}
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
                   >
                     <Option value="7">1 Week</Option>
                     <Option value="30">1 Month</Option>
@@ -125,6 +135,8 @@ const NewSkill: React.FC = () => {
                     name="description"
                     value={newSkillData.description}
                     onChange={handleInput}
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
                   />
                 </div>
               </div>
@@ -133,6 +145,9 @@ const NewSkill: React.FC = () => {
               <Button
                 className="mt-4 text-lg font-light"
                 onClick={handleNewSkill}
+                placeholder={undefined}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
               >
                 Start Learning
               </Button>

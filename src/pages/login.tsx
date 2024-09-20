@@ -92,17 +92,15 @@ const Login: React.FC = () => {
                 label="Email"
                 name="email"
                 crossOrigin={undefined}
-                onChange={handleInput}
-              />
+                onChange={handleInput} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}              />
               <Input
                 label="Password"
                 name="password"
                 type="password"
                 crossOrigin={undefined}
                 error={wrongInfo}
-                onChange={handleInput}
-              />
-              <Button onClick={handleLogin} className="mt-4">
+                onChange={handleInput} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}              />
+              <Button onClick={handleLogin} className="mt-4" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                 Start Learning
               </Button>
               <hr></hr>

@@ -3,13 +3,17 @@ import LoginPage from "./login";
 import DashboardPage from "./dashboard";
 import ErrorPage from "./error";
 import NewSkillPage from "./newskill";
-import MySkillPage from "./myskill";
+import SkillRouterPage from "./skillrouter";
+import SkillPage from "./skillpage";
+import DailyTracker from "./dailytracker";
 
 export {
   AboutPage,
   DashboardPage,
   ErrorPage,
   LoginPage,
-  MySkillPage,
+  SkillRouterPage,
   NewSkillPage,
+  SkillPage, 
+  DailyTracker
 };
