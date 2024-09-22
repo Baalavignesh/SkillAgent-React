@@ -43,7 +43,7 @@ const DailyTracker: React.FC = () => {
 
   useEffect(() => {
     fetchThreadInfo();
-  });
+  }, []);
 
   let handleSubmit = async (e: any) => {
     if (e.key === "Enter") {

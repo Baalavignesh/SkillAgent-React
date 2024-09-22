@@ -9,4 +9,11 @@ let addStudyPlan =async (studyplan:any) => {
       );
 }
 
-export {addStudyPlan}
+let fetchStudyPlan = async (email:string, skill:string) => {
+    return await axios.get(
+        `${import.meta.env.VITE_API_ENDPOINT}/studyplan?email=${email}&skill=${skill}`,
+        { headers: { Authorization: `Bearer ${getAccessToken()}` } }
+      );
+}
+
+export {addStudyPlan, fetchStudyPlan}

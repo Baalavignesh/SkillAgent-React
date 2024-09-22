@@ -5,7 +5,7 @@ import VANTA from "vanta/dist/vanta.globe.min";
 import * as THREE from "three";
 import { Fade } from "@mui/material";
 import { VANTA_BACKGROUND, VANTA_PRIMARY } from "../constants/colors";
-import { Button, Input } from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import { checkAccessToken, SetAccessToken } from "../helper/localStorage";
 import { LoginUser } from "../services/firebase/auth";
 
@@ -104,15 +104,22 @@ const Login: React.FC = () => {
                 Start Learning
               </Button>
               <hr></hr>
-              <p className="text-center text-sm">
-                New here?{" "}
-                <span
-                  className="underline text-blue-300 cursor-pointer"
-                  onClick={() => navigate("/register")}
+              {/* @ts-ignore */}
+              <Typography variant="small" className="mt-4 flex justify-center">
+              Don&apos;t have an account?
+              {/* @ts-ignore */}
+              <Typography
+                as="a"
+                variant="small"
+                color="blue-gray"
+                className="ml-1 font-bold cursor-pointer"
+                onClick={() => navigate("/register")}
                 >
-                  Register Now
-                </span>
-              </p>
+                Sign up
+              </Typography>
+            </Typography>
+
+              
             </div>
           </div>
         </div>

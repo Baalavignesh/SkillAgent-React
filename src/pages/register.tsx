@@ -5,7 +5,7 @@ import VANTA from "vanta/dist/vanta.globe.min";
 import * as THREE from "three";
 import { Fade } from "@mui/material";
 import { VANTA_BACKGROUND, VANTA_PRIMARY } from "../constants/colors";
-import { Button, Input } from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import { checkAccessToken, SetAccessToken } from "../helper/localStorage";
 import { CreateUser } from "../services/firebase/auth";
 
@@ -116,15 +116,20 @@ const Register: React.FC = () => {
                 Create Account
               </Button>
               <hr></hr>
-              <p className="text-center">
-                Already a memeber?{" "}
-                <span
-                  className="underline text-blue-300 cursor-pointer"
-                  onClick={() => navigate("/login")}
+              {/* @ts-ignore */}
+              <Typography variant="small" className="mt-4 flex justify-center">
+              Already a member?
+              {/* @ts-ignore */}
+              <Typography
+                as="a"
+                variant="small"
+                color="blue-gray"
+                className="ml-1 font-bold cursor-pointer"
+                onClick={() => navigate("/login")}
                 >
-                  Login
-                </span>
-              </p>
+                Login
+              </Typography>
+            </Typography>
             </div>
           </div>
         </div>

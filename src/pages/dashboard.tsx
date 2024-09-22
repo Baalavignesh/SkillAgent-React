@@ -12,10 +12,13 @@ const Dashboard: React.FC = () => {
   let [mySkills, setMySkills] = useState<ISkillInfo[]>([]);
   const { email } = useSelector((state: RootState) => state.authStore);
 
+  let fetchUserSkill = async () => {
+    let userSkills = await fetchUserSkills(email);
+    setMySkills(userSkills.data);
+  };
+  
   useEffect(() => {
-    fetchUserSkills(email).then((res) => {
-      setMySkills(res.data);
-    });
+    fetchUserSkill();
   }, []);
 
   return (
@@ -28,7 +31,7 @@ const Dashboard: React.FC = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <MyNavbar  />
+      <MyNavbar />
       <Fade in={true} timeout={1500}>
         <Container maxWidth="xl">
           <h1 className="mt-12 mb-12 text-center">My Skills</h1>
