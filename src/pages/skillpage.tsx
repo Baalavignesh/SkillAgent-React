@@ -3,7 +3,7 @@ import MyNavbar from "../shared/navbar";
 import { useEffect, useState } from "react";
 import { fetchStudyPlan } from "../services/firebase/studyplan";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../store/store";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -11,13 +11,15 @@ import {
   Accordion,
   AccordionHeader,
   AccordionBody,
+  Button,
 } from "@material-tailwind/react";
 import React from "react";
 import { useCountUp } from "use-count-up";
 import myLearningPlan from "../constants/learnignPlan";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-
+import { faCircleCheck, faLock } from "@fortawesome/free-solid-svg-icons";
+import findPercentage from "../helper/findPercentage";
+import { certificate } from "../assets";
 
 const DailyTracker: React.FC = () => {
   let { skill } = useParams();
@@ -29,6 +31,9 @@ const DailyTracker: React.FC = () => {
   let getDbInfo = async () => {
     let response = await fetchStudyPlan(email, skill!);
     setSkillPlanInfo(response.data);
+
+    let myPercentage = findPercentage(response.data.plan);
+    setPercentage(myPercentage);
   };
 
   useEffect(() => {
@@ -64,14 +69,24 @@ const DailyTracker: React.FC = () => {
                       : "stroke-dashoffset 0.5s ease 0s",
                   pathColor: "#9575CC",
                   trailColor: "#f5f5f5",
-                  textColor: "black"
+                  textColor: "black",
                 })}
               />
-              <p className="text-center mt-4">{percentage}% Completed</p>
+              <p className="text-center py-8">{percentage}% Completed</p>
               {/* @ts-ignore */}
             </div>
-            <div className="bg-gray-100 my-12 rounded-lg h-full flex flex-col justify-center items-center">
-              <p className="text-2xl">More Data Here</p>
+            <hr></hr>
+            <div className="bg-gray-300 my-12 rounded-lg h-36 flex flex-col relative justify-center items-center border-2 border-gray-300">
+              <div className="mt-0 top-auto absolute z-40 bg-black text-white py-4 px-6 rounded-lg  select-none cursor-pointer hover:scale-105 duration-200 transition-all hover:border-white">
+                Get Certificate
+                <FontAwesomeIcon icon={faLock} size="sm" className="pl-4" />
+              </div>
+              <div className="blur-sm mt-2 p-4 h-full w-4/5 select-none flex gap-12">
+                <img src={certificate} className="w-20 " />
+                Congratulation on Completing your Course. SkillAgent is happy
+                for you, Congratulation on Course. I am proud of yuou my boy.
+                Proud me
+              </div>
             </div>
           </div>
           <div className="w-3/5 bg-gray-50 p-12">
@@ -92,13 +107,26 @@ interface ProgressAccordionProps {
 
 const ProgressAccordian: React.FC<ProgressAccordionProps> = ({ skillPlan }) => {
   const [open, setOpen] = React.useState<number>(1);
+  let navigate = useNavigate();
 
   const handleOpen = (value: any) => setOpen(open === value ? 0 : value);
 
   return (
     <>
-      {skillPlan?.map((plan: Plan) => {
+      {skillPlan?.map((plan: Plan, index: number) => {
         const dayNumber = parseInt(plan.day.split(" ")[1]);
+        let progress: number[] = [];
+        if (progress[index] === undefined) {
+          progress[index] = 0; // Initialize if not set
+        }
+        plan.tasks.forEach((value) => {
+          if (value.isDone) {
+            console.log(plan.day, value.isDone);
+            progress[index] = progress[index] + 1;
+          } else {
+            progress[index] = progress[index];
+          }
+        });
         return (
           <div key={dayNumber} className="w-full">
             {/* @ts-ignore */}
@@ -116,26 +144,35 @@ const ProgressAccordian: React.FC<ProgressAccordionProps> = ({ skillPlan }) => {
                 }`}
               >
                 <span>
-                {plan.day} : {plan.topic} <span className="font-light text-base">(0/3)</span>
-                    </span>
+                  {plan.day} : {plan.topic}
+                  <span className="font-light text-base">
+                    ({progress[index]}/3)
+                  </span>
+                </span>
               </AccordionHeader>
               <AccordionBody className=" flex flex-col flex-grow pt-0 text-base font-normal w-full">
                 {plan.objectives.map((objective: string, index: number) => {
                   return (
                     <div
                       key={index}
+                      onClick={() => navigate(`${dayNumber}`)}
                       className="cursor-pointer flex flex-between px-4 w-full hover:bg-blue-gray-50 duration-200 rounded-md ease-in-out transition-all"
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
-                        alignItems:"center"
+                        alignItems: "center",
                       }}
                     >
                       <p className={`text-lg text-black font-medium py-4 `}>
                         {objective}
                       </p>
-                      <FontAwesomeIcon icon={faCircleCheck} size="lg" className="mr-2" color={`${plan.tasks[index].isDone && 'green'}`} />
-                      </div>
+                      <FontAwesomeIcon
+                        icon={faCircleCheck}
+                        size="lg"
+                        className="mr-2"
+                        color={`${plan.tasks[index].isDone && "green"}`}
+                      />
+                    </div>
                   );
                 })}
               </AccordionBody>

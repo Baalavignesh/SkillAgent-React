@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
     let userSkills = await fetchUserSkills(email);
     setMySkills(userSkills.data);
   };
-  
+
   useEffect(() => {
     fetchUserSkill();
   }, []);
@@ -25,7 +25,6 @@ const Dashboard: React.FC = () => {
     <div
       className="h-screen overflow-y w-full"
       style={{
-        // backgroundImage: `url(${background})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",

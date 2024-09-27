@@ -18,3 +18,43 @@ h2 {
     margin: 0;
     padding: 0;
 }
+
+/* .inline-code {
+    background-color: #f5f2f0; 
+    color: #d6336c; 
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 90%;
+  }
+    pre {
+    padding: 1em;
+    border-radius: 4px;
+    overflow: auto;
+  } */
+  
+  
+  /* li {
+    list-style-type: lower-alpha; 
+  } */
+
+  .markdown > * {
+  all: revert;
+}
+
+.markdown table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.markdown th, .markdown td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+.markdown th {
+  background-color: #f4f4f4;
+  text-align: left;
+}
+
+.markdown p {
+  width: fit-content;
+}

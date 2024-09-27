@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { addNewSkill } from "../services/firebase/userskills";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { newskill } from "../assets";
 
 const NewSkill: React.FC = () => {
   let navigate = useNavigate();
@@ -25,7 +26,7 @@ const NewSkill: React.FC = () => {
     title: "",
     what: "",
     level: "",
-    duration: 0,
+    duration: null,
     description: "",
     email: email,
   });
@@ -53,25 +54,28 @@ const NewSkill: React.FC = () => {
     <div className="h-screen overflow-hidden w-full">
       <MyNavbar />
       <Fade in={true} timeout={1500}>
-        <Container
-          maxWidth="xl"
-          className="flex flex-col justify-center items-center"
-        >
+        <div className="h-full">
           <SkillNameDialog
             newSkillData={newSkillData}
             handleInput={handleInput}
           />
-          <form>
-            <h1 className="mt-12 mb-12 text-center text-u">New Skills</h1>
-            <div className="flex justify-center ">
-              <div className="w-2/5 bg-gray-50  border-r-2 p-4 pl-8 rounded-md rounded-r-none flex items-center">
-                <p className="w-full  leading-normal text-2xl">
-                  Start your journey on learning a new skill now
-                </p>
+          <form className="h-full">
+            <div className="flex justify-center h-full">
+              <div className="w-2/5 flex flex-col  items-center h-full border-r-2 rounded-md rounded-r-none m-12 mt-0">
+                <div className=" bg-gray-100 flex flex-col items-center justify-center pt-28  pb-28 m-12 rounded-md">
+                  <p className="  leading-normal text-4xl w-3/4 border-b-2 text-center  pb-6">
+                    Start your journey on learning a new skill
+                  </p>
+                  <img src={newskill} className="pt-12 w-1/2" />
+                </div>
               </div>
-              <div className="p-4 bg-gray-50 w-full rounded-md flex flex-col justify-center items-center ">
-                <div className="flex w-full gap-4 justify-center items-center p-4">
-                  <p className="w-1/2">What skill do you want to learn?</p>
+              <div className="w-1/2 p-4  rounded-md flex flex-col pt-28 items-center ">
+                <h1 className="mb-12 text-center text-4xl">New Skill Information</h1>
+
+                <div className="flex flex-col gap-1   p-4 w-5/6">
+                  <p className="w-1/2 pl-1 mb-1">
+                    Explain what skill you would like to learn?
+                  </p>
                   <Input
                     required
                     label="Description"
@@ -83,8 +87,10 @@ const NewSkill: React.FC = () => {
                     onPointerLeaveCapture={undefined}
                   />
                 </div>
-                <div className="flex w-full gap-4 justify-center items-center p-4">
-                  <p className="w-1/2">What is the current skill level?</p>
+                <div className="flex flex-col gap-1   p-4 w-5/6">
+                  <p className="w-1/2 pl-1 mb-1">
+                    What is the current skill level?
+                  </p>
                   <Select
                     label="Current Level"
                     name="level"
@@ -99,14 +105,14 @@ const NewSkill: React.FC = () => {
                     <Option value="expert">Expert</Option>
                   </Select>
                 </div>
-                <div className="flex w-full gap-4 justify-center items-center p-4">
-                  <p className="w-1/2">
+                <div className="flex flex-col gap-1   p-4 w-5/6">
+                  <p className="w-1/2 pl-1 mb-1">
                     How fast would you like to learn the skill?
                   </p>
                   <Select
                     label="Duration"
                     name="duration"
-                    value={newSkillData.duration.toString()}
+                    value={newSkillData.duration?.toString()}
                     onChange={(e: any) => handleDropdown("duration", e)}
                     placeholder={undefined}
                     onPointerEnterCapture={undefined}
@@ -117,9 +123,9 @@ const NewSkill: React.FC = () => {
                     <Option value="100">100 Days</Option>
                   </Select>
                 </div>
-                <div className="flex w-full gap-4 justify-center items-center p-4">
-                  <p className="w-1/2">
-                    Is there any further information?(optional)
+                <div className="flex flex-col  gap-1   p-4 w-5/6">
+                  <p className="w-1/2 pl-1 mb-1">
+                    Is there any further information? <span className="text-xs">(optional)</span>
                   </p>
                   <Input
                     label="Extra"
@@ -131,22 +137,23 @@ const NewSkill: React.FC = () => {
                     onPointerLeaveCapture={undefined}
                   />
                 </div>
+
+                <div className="flex w-full justify-center mt-4">
+                  {/* @ts-ignore */}
+
+                  <Button
+                    variant="gradient"
+                    className="mt-4 font-normal text-base w-fit"
+                    onClick={handleNewSkill}
+                    fullWidth
+                  >
+                    Start Learning
+                  </Button>
+                </div>
               </div>
             </div>
-            <div className="flex w-full justify-center mt-4">
-              {/* @ts-ignore */}
-
-              <Button
-                variant="gradient"
-                className="mt-4 font-normal text-base w-fit"
-                onClick={handleNewSkill}
-                fullWidth
-              >
-                Start Learning
-              </Button>
-            </div>
           </form>
-        </Container>
+        </div>
       </Fade>
     </div>
   );

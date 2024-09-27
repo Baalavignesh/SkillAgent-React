@@ -6,13 +6,15 @@ let AddThreadToDb = async (
   accessToken: string,
   threadId: string,
   skill: string,
-  assistantId: string
+  assistantId: string,
+  studyPlanId: string
 ) => {
   let threadInfo: IThreadInfo = {
     email: accessToken,
     threadId: threadId,
     assistantId: assistantId,
     skill: skill,
+    studyPlanId: studyPlanId
   };
   return await axios.post(
     `${import.meta.env.VITE_API_ENDPOINT}/skillthread`,

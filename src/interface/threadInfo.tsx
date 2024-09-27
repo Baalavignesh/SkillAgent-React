@@ -3,4 +3,5 @@ interface IThreadInfo {
     skill: string;
     threadId: string;
     assistantId: string;
+    studyPlanId: string;
 }

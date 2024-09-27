@@ -4,5 +4,7 @@ import img2 from "./img2.jpeg";
 import img3 from "./img3.jpeg";
 import img4 from "./img4.jpeg";
 import logo from "./logo.png";
+import newskill from "./newskill.svg";
+import certificate from "./certifiacate.svg";
 
-export {background, img1, img2, img3, img4, logo}
+export {background, img1, img2, img3, img4, logo, newskill, certificate}

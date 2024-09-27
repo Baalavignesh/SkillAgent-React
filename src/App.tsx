@@ -5,6 +5,7 @@ import Dashboard from "./pages/dashboard";
 import Error from "./pages/error";
 import { AboutPage, LoginPage, SkillRouterPage, NewSkillPage, SkillPage, DailyTracker } from "./pages";
 import Register from "./pages/register";
+import 'prismjs/components/prism-jsx';
 
 PRIMARY;
 function App() {

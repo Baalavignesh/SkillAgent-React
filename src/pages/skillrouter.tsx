@@ -2,7 +2,7 @@ import { Fade } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CreateAssistant } from "../services/openai/assistant";
-import CreateInstruction from "../helper/instruction";
+import {CreateInstruction} from "../helper/gptCommands";
 import {
   AddMessageToThread,
   CreateThread,
@@ -34,38 +34,39 @@ const SkillRouter: React.FC = () => {
     initial: boolean,
     dbData: any
   ) => {
-    await AddMessageToThread(threadId, message).then(async () => {
-      await RunThread(threadId, assistantId).then(async (runThreadResponse) => {
-        if (runThreadResponse.data.status === "completed") {
-          await FetchThreadMessages(runThreadResponse.data.thread_id).then(
-            async (res) => {
-              let finalMessages: any[] = res.data.data.reverse();
-              if (initial) {
-                let jsonMessage = finalMessages[1].content[0].text.value;
-                let jsonData = jsonMessage.match(/```json([\s\S]*?)```/);
-                let extractedJson = jsonData ? jsonData[1] : null;
-                extractedJson = JSON.parse(extractedJson);
-                let result = CreateStudyPlanDBJson(
-                  extractedJson,
-                  dbData,
-                  finalMessages[3].content[0].text.value
-                );
-                await addStudyPlan(result);
-              } else {
-                finalMessages = finalMessages.slice(4);
-              }
-              setLoading(false);
-              // navigate to next page
-              navigate(`/skill/${skill}`);
-              return finalMessages;
-            }
-          );
-        } else {
-          console.log(runThreadResponse.data.status);
-        }
-      });
-    });
+    await AddMessageToThread(threadId, message);
+  
+    const runThreadResponse = await RunThread(threadId, assistantId);
+  
+    if (runThreadResponse.data.status === "completed") {
+      const res = await FetchThreadMessages(runThreadResponse.data.thread_id);
+      let finalMessages: any[] = res.data.data.reverse();
+  
+      if (initial) {
+        let jsonMessage = finalMessages[1].content[0].text.value;
+        let jsonData = jsonMessage.match(/```json([\s\S]*?)```/);
+        let extractedJson = jsonData ? jsonData[1] : null;
+        extractedJson = JSON.parse(extractedJson);
+  
+        let result = CreateStudyPlanDBJson(
+          extractedJson,
+          dbData,
+          finalMessages[3].content[0].text.value
+        );
+  
+        let studyPlanDoc = await addStudyPlan(result);
+        console.log(studyPlanDoc.data.documentId);
+        return studyPlanDoc.data.documentId;
+      } else {
+        finalMessages = finalMessages.slice(4);
+        return "";
+      }
+    } else {
+      console.log(runThreadResponse.data.status);
+      return " ";
+    }
   };
+  
 
   let initialSetup = async () => {
     await fetchSkillInfo(email, skill).then(async (skillInfoResponse) => {
@@ -80,12 +81,6 @@ const SkillRouter: React.FC = () => {
         const threadResponse = await CreateThread();
         console.log("thread information", threadResponse.data);
 
-        await AddThreadToDb(
-          email,
-          threadResponse.data.id,
-          skill!,
-          assistantResponse.data.id
-        );
         await addAndRunMessage(
           threadResponse.data.id,
           assistantResponse.data.id,
@@ -101,17 +96,32 @@ const SkillRouter: React.FC = () => {
                   "task2",
                   "task3"
                 ]
-              }. Make sure there is no more than 3 objective and no more than 4 task for each day. `,
+              }. Make sure there are 3 objective and 3 task for each day. `,
           false,
           null
         );
-        await addAndRunMessage(
+        
+        let studyPlanId:any = await addAndRunMessage(
           threadResponse.data.id,
           assistantResponse.data.id,
           "Introduce yourself to me, cut to the point. Don't say sure or ok. Just talk to me normally.",
           true,
           skillInfoResponse.data
         );
+
+        console.log(studyPlanId);
+
+        await AddThreadToDb(
+          email,
+          threadResponse.data.id,
+          skill!,
+          assistantResponse.data.id,
+          studyPlanId
+        );
+        setLoading(false);
+        navigate(`/skill/${skill}`);
+
+
       } else {
         navigate("/");
       }
@@ -127,23 +137,6 @@ const SkillRouter: React.FC = () => {
       // navigate to parentpage
       navigate(`/skill/${skill}`);
       setLoading(false);
-
-      // let jsonMessage = finalMessages[1].content[0].text.value;
-      // let jsonData = jsonMessage.match(/```json([\s\S]*?)```/);
-      // let extractedJson = jsonData ? jsonData[1] : null;
-      // extractedJson = JSON.parse(extractedJson);
-      // console.log(extractedJson);
-      // console.log(finalMessages[3]);
-      // CreateStudyPlanDBJson(
-      //   extractedJson,
-      //   {
-      //     email: "baalavignesh",
-      //     title: "Jap",
-      //   },
-      //   finalMessages[3]
-      // );
-
-      // finalMessages = finalMessages.slice(4);
     } else {
       // if not found, create a assistant and a thread and run initial command
       initialSetup();
