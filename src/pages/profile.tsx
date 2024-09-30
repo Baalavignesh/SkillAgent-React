@@ -17,8 +17,8 @@ const MyProfile: React.FC = () => {
           <img src={profile} className="h-52"></img>
           <div>
           <h1 className="text-4xl font-light">{email}</h1>
-          <h1 className="text-xl font-light pt-6">Total Skills - 12</h1>
-          <h1 className="text-xl font-light pt-2">Certificate Earned - 3</h1>
+          <h1 className="text-xl font-light pt-6">Total Skills - [Data here]</h1>
+          <h1 className="text-xl font-light pt-2">Certificate Earned - [Data here]</h1>
 
           </div>
         </div>
