@@ -22,8 +22,17 @@ import { Input } from "@material-tailwind/react";
 import {
   faArrowLeft,
   faArrowRight,
-  faCircleCheck,
+  // faCircleCheck,
+  // faSquare,
+  faSquareCheck,
 } from "@fortawesome/free-solid-svg-icons";
+
+import {
+  faSquare,
+  // faSquareCheck,
+} from "@fortawesome/free-regular-svg-icons";
+
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MarkdownRenderer from "../shared/chatbubble";
 
@@ -221,7 +230,8 @@ const DailyTracker: React.FC = () => {
                     >
                       <div className="">{task[index]}</div>
                       <FontAwesomeIcon
-                        icon={faCircleCheck}
+                      
+                        icon={task.isDone ? faSquareCheck : faSquare}
                         size="lg"
                         className="mr-2"
                         color={`${task.isDone && "green"}`}

@@ -18,7 +18,7 @@ const About: React.FC = () => {
             </h2>
             <img src={aboutmain} className="h-64" />
           </div>
-          <div className="grid grid-cols-3 gap-4 mt-4 mx-20">
+          <div className="grid grid-cols-3 gap-4 mt-4 mx-20 content-start">
             {aboutus.map((about) => {
               return (
                 <ContentCard

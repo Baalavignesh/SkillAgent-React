@@ -207,7 +207,7 @@ let SkillNameDialog: React.FC<SkillNameDialogProps> = ({
               variant="paragraph"
               color="gray"
             >
-              How would you like to call the new skill you are about to learn?
+              What would you like to title this new skill?
             </Typography>
             {/* @ts-ignore */}
             <Input

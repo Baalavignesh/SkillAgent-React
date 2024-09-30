@@ -42,7 +42,9 @@ const Dashboard: React.FC = () => {
                 onClick={() => navigate("/newskill")}
               >
                 <h1>
-                  Learn New Skill                   <FontAwesomeIcon icon={faAdd} className="w-4 pl-2" />
+                <FontAwesomeIcon icon={faAdd} className="w-6 pr-4" />
+
+                  Learn New Skill
                 </h1>
                 <img src={newcard} className="h-32"></img>
               </div>
