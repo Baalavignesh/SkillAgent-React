@@ -6,7 +6,7 @@ import NewSkillPage from "./newskill";
 import SkillRouterPage from "./skillrouter";
 import SkillPage from "./skillpage";
 import DailyTracker from "./dailytracker";
-
+import MyProfile from "./profile";
 export {
   AboutPage,
   DashboardPage,
@@ -14,6 +14,7 @@ export {
   LoginPage,
   SkillRouterPage,
   NewSkillPage,
-  SkillPage, 
-  DailyTracker
+  SkillPage,
+  DailyTracker,
+  MyProfile
 };

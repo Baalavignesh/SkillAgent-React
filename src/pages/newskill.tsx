@@ -1,4 +1,4 @@
-import { Container, Fade } from "@mui/material";
+import { Fade } from "@mui/material";
 import React, { useState } from "react";
 import MyNavbar from "../shared/navbar";
 import {
@@ -51,7 +51,7 @@ const NewSkill: React.FC = () => {
   };
 
   return (
-    <div className="h-screen overflow-hidden w-full">
+    <div className="h-[80vh]  w-full">
       <MyNavbar />
       <Fade in={true} timeout={1500}>
         <div className="h-full">
@@ -70,7 +70,9 @@ const NewSkill: React.FC = () => {
                 </div>
               </div>
               <div className="w-1/2 p-4  rounded-md flex flex-col pt-28 items-center ">
-                <h1 className="mb-12 text-center text-4xl">New Skill Information</h1>
+                <h1 className="mb-12 text-center text-4xl">
+                  New Skill Information
+                </h1>
 
                 <div className="flex flex-col gap-1   p-4 w-5/6">
                   <p className="w-1/2 pl-1 mb-1">
@@ -125,7 +127,8 @@ const NewSkill: React.FC = () => {
                 </div>
                 <div className="flex flex-col  gap-1   p-4 w-5/6">
                   <p className="w-1/2 pl-1 mb-1">
-                    Is there any further information? <span className="text-xs">(optional)</span>
+                    Is there any further information?{" "}
+                    <span className="text-xs">(optional)</span>
                   </p>
                   <Input
                     label="Extra"
@@ -194,7 +197,6 @@ let SkillNameDialog: React.FC<SkillNameDialogProps> = ({
           {/* @ts-ignore */}
 
           <CardBody className="flex flex-col gap-4">
-            {" "}
             {/* @ts-ignore */}
             <Typography variant="h4" color="blue-gray">
               New Skill

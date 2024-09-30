@@ -311,7 +311,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                     <hr></hr>
                     <div className="w-full flex flex-row items-end justify-end bg-white p-4 pr-0 py-0 rounded-md">
                       <div className="w-10/12 flex flex-end justify-end">
-                        <span className="whitespace-pre-wrap w-fit px-4 py-2 m-4 rounded-br-none rounded-lg bg-custom-black text-white ">
+                        <span className="whitespace-pre-wrap w-fit px-4 py-0 m-4 rounded-br-none rounded-lg bg-gray-900 text-white ">
                           <MarkdownRenderer
                             markdownContent={message.content[0].text.value}
                           />
@@ -350,7 +350,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
             visible={true}
             height="10"
             width="40"
-            color="#4fa94d"
+            color="#6B62FF"
             radius="9"
             ariaLabel="three-dots-loading"
             wrapperStyle={{}}

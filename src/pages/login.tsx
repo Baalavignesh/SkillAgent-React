@@ -8,6 +8,7 @@ import { VANTA_BACKGROUND, VANTA_PRIMARY } from "../constants/colors";
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { checkAccessToken, SetAccessToken } from "../helper/localStorage";
 import { LoginUser } from "../services/firebase/auth";
+import { logodark, logolight } from "../assets";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   let handleInput = (e: any) => {
     setLoginInfo({
@@ -43,7 +45,7 @@ const Login: React.FC = () => {
           minWidth: 200.0,
           scale: 1.0,
           scaleMobile: 1.0,
-          size: 0.50
+          size: 0.5,
         })
       );
     }
@@ -67,8 +69,9 @@ const Login: React.FC = () => {
       };
       SetAccessToken(responseData);
       navigate("/");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log(error.response.data.error);
+      setErrorMessage(error.response.data.error);
     }
   };
 
@@ -79,12 +82,16 @@ const Login: React.FC = () => {
           className="pl-24 pr-24 pt-12 h-screen text-custom-white  flex flex-col justify-center items-center"
           ref={vantaRef}
         >
-          <div className="bg-white p-6 rounded-md text-black h-98 w-1/3 flex flex-col items-center gap-4 pt-12 pb-12">
-            <div className="text-center">
-              <h1 className="">SkillAgent</h1>
-              <p className="text-xs text-gray-600">
+          <div className="bg-white p-6 rounded-md text-black h-98 w-1/3 flex flex-col items-center gap-2 pt-12 pb-12">
+            <div className="text-center flex flex-col justify-center items-center">
+              <img src={logolight} className="h-16" />
+              <span className=" border-t-2 pt-2 mt-2 w-full"></span>
+              <h1 className="text-2xl p-4">Login</h1>
+              <p className="text-xs text-gray-600 pb-4">
                 Continue the journey to learning new skills
               </p>
+              <hr></hr>
+              <p className="text-xs text-red-600 pt-2">{errorMessage}</p>
             </div>
 
             <div className="w-72  flex flex-col gap-4 ">
@@ -92,34 +99,44 @@ const Login: React.FC = () => {
                 label="Email"
                 name="email"
                 crossOrigin={undefined}
-                onChange={handleInput} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}              />
+                onChange={handleInput}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
               <Input
                 label="Password"
                 name="password"
                 type="password"
                 crossOrigin={undefined}
                 error={wrongInfo}
-                onChange={handleInput} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}              />
-              <Button onClick={handleLogin} className="mt-4" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+                onChange={handleInput}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+              <Button
+                onClick={handleLogin}
+                className="mt-4"
+                placeholder={undefined}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              >
                 Start Learning
               </Button>
               <hr></hr>
               {/* @ts-ignore */}
               <Typography variant="small" className="mt-4 flex justify-center">
-              Don&apos;t have an account?
-              {/* @ts-ignore */}
-              <Typography
-                as="a"
-                variant="small"
-                color="blue-gray"
-                className="ml-1 font-bold cursor-pointer"
-                onClick={() => navigate("/register")}
+                Don&apos;t have an account?
+                {/* @ts-ignore */}
+                <Typography
+                  as="a"
+                  variant="small"
+                  color="blue-gray"
+                  className="ml-1 font-bold cursor-pointer"
+                  onClick={() => navigate("/register")}
                 >
-                Sign up
+                  Sign up
+                </Typography>
               </Typography>
-            </Typography>
-
-              
             </div>
           </div>
         </div>

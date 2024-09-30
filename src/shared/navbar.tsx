@@ -1,10 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { removeAccessToken } from "../helper/localStorage";
 import { LogoutUser } from "../services/firebase/auth";
-import { logo } from "../assets";
+import { logodark, profile } from "../assets";
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const MyNavbar: React.FC = () => {
   let navigate = useNavigate();
@@ -12,7 +10,7 @@ const MyNavbar: React.FC = () => {
   return (
     <div className="p-4 pl-24 pr-24 flex justify-between sticky top-0 items-center bg-custom-black text-white z-50">
       <h2 onClick={() => navigate("/")} className="cursor-pointer">
-        <img src={logo} className="w-36 mt-1"></img>
+        <img src={logodark} className="w-36 mt-1"></img>
       </h2>
       <div className="flex gap-12 items-center justify-center">
         <h4
@@ -65,12 +63,11 @@ const Dropdown: React.FC = () => {
         <FontAwesomeIcon icon={faChevronDown} className="ml-2" size="sm" />
       </button> */}
 
-      <FontAwesomeIcon
-        icon={faCircleUser}
+      <img
+        src={profile}
+        className="w-12 ml-2 mb-2 border-gray-700 border-2 rounded-full"
         onClick={toggleDropdown}
-        className="ml-2"
-        size="2x"
-      />
+      ></img>
 
       {isOpen && (
         <div

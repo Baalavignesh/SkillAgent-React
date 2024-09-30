@@ -8,6 +8,7 @@ import { VANTA_BACKGROUND, VANTA_PRIMARY } from "../constants/colors";
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { checkAccessToken, SetAccessToken } from "../helper/localStorage";
 import { CreateUser } from "../services/firebase/auth";
+import { logolight } from "../assets";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Register: React.FC = () => {
     password: "",
     createdAt: new Date(),
   });
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   let handleInput = (e: any) => {
     setRegisterInfo({
@@ -67,8 +69,9 @@ const Register: React.FC = () => {
       };
       SetAccessToken(responseData);
       navigate("/");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log(error.response.data.error);
+      setErrorMessage(error.response.data.error);
     }
   };
 
@@ -79,16 +82,20 @@ const Register: React.FC = () => {
           className="pl-24 pr-24 pt-12 h-screen text-custom-white  flex flex-col justify-center items-center"
           ref={vantaRef}
         >
-          <div className="bg-white p-6 rounded-md text-black h-98 w-1/3 flex flex-col items-center gap-4 pt-12 pb-12">
-            <div className="text-center">
-              <h1 className="">Welcome to SkillAgent</h1>
+          <div className="bg-white p-6 rounded-md text-black h-98 w-1/3 flex flex-col items-center gap-2 pt-12 pb-12">
+            <div className="text-center flex flex-col justify-center items-center">
+              <img src={logolight} className="h-16 " />
+              <span className=" border-t-2 pt-2 mt-2 w-full"></span>
+              <h1 className="text-2xl p-4">Register Now</h1>
               <p className="text-xs text-gray-600 pb-4">
                 Start your journey to learning new skills
               </p>
               <hr></hr>
+
+              <p className="text-xs text-red-600 pt-2">{errorMessage}</p>
             </div>
 
-            <div className="w-72  flex flex-col gap-4 my-4">
+            <div className="w-72  flex flex-col gap-4">
               <Input
                 label="Email"
                 name="email"
@@ -118,18 +125,18 @@ const Register: React.FC = () => {
               <hr></hr>
               {/* @ts-ignore */}
               <Typography variant="small" className="mt-4 flex justify-center">
-              Already a member?
-              {/* @ts-ignore */}
-              <Typography
-                as="a"
-                variant="small"
-                color="blue-gray"
-                className="ml-1 font-bold cursor-pointer"
-                onClick={() => navigate("/login")}
+                Already a member?
+                {/* @ts-ignore */}
+                <Typography
+                  as="a"
+                  variant="small"
+                  color="blue-gray"
+                  className="ml-1 font-bold cursor-pointer"
+                  onClick={() => navigate("/login")}
                 >
-                Login
+                  Login
+                </Typography>
               </Typography>
-            </Typography>
             </div>
           </div>
         </div>
